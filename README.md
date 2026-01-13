@@ -1,6 +1,11 @@
-# MTG Commander Bracket Bot
+# MTG Commander Bracket Analyzer
 
-A Discord bot that analyzes Magic: The Gathering Commander decks from Moxfield and Archidekt, determining which bracket they belong to based on configurable rules.
+A comprehensive toolkit for analyzing Magic: The Gathering Commander decks from Moxfield and Archidekt, determining which bracket they belong to based on configurable rules.
+
+## Components
+
+1. **Discord Bot** - Full-featured bot with slash commands for server-based bracket management
+2. **Web Application** - Frontend-only React app deployable to GitHub Pages
 
 ## Features
 
@@ -139,25 +144,82 @@ The bot will:
 
 ```
 rulezero/
-├── src/
-│   ├── bot.js                      # Main bot file
-│   ├── deploy-commands.js          # Command deployment script
+├── packages/core/                  # Shared business logic library (ES Modules)
+│   └── src/
+│       ├── domain/                # Pure business entities
+│       │   ├── Deck.js
+│       │   ├── BracketAnalysisResult.js
+│       │   └── CardCategory.js
+│       ├── usecases/              # Application business rules
+│       │   └── FetchDeckBracketUseCase.js
+│       └── infrastructure/        # External adapters
+│           ├── MoxfieldAdapter.js
+│           ├── ArchidektAdapter.js
+│           └── BracketAnalyzer.js
+├── src/                            # Discord Bot (CommonJS)
+│   ├── bot.js                     # Main bot file
+│   ├── deploy-commands.js         # Command deployment script
 │   ├── commands/
-│   │   └── index.js                # Slash command definitions
+│   │   └── index.js               # Slash command definitions
 │   ├── config/
-│   │   ├── defaultBrackets.js      # Default bracket configuration
-│   │   └── configManager.js        # Configuration management
+│   │   ├── defaultBrackets.js     # Default bracket configuration
+│   │   └── configManager.js       # Configuration management
 │   ├── handlers/
-│   │   └── commandHandler.js       # Command logic handlers
+│   │   └── commandHandler.js      # Command logic handlers
 │   └── services/
-│       ├── deckFetcher.js          # Deck fetching from Moxfield/Archidekt
-│       └── bracketAnalyzer.js      # Bracket analysis logic
+│       └── deckService.js         # Wrapper for shared library
+├── web/                            # React Web App (ES Modules)
+│   └── src/
+│       ├── services/
+│       │   ├── deckService.js     # Wrapper for shared library
+│       │   └── configManager.js   # Configuration (localStorage)
+│       └── components/
 ├── data/
-│   └── config.json                 # Runtime configuration (auto-generated)
+│   └── config.json                # Runtime configuration (auto-generated)
 ├── .env                            # Environment variables
-├── package.json
-└── README.md
+├── ARCHITECTURE.md                 # Architecture documentation
+└── package.json                    # Workspace configuration
 ```
+
+## Web Application
+
+The web application is a frontend-only React app that can be deployed to GitHub Pages. It provides the same functionality as the Discord bot but in a web interface.
+
+### Quick Start
+
+```bash
+cd web
+npm install
+npm start
+```
+
+### Deploy to GitHub Pages
+
+```bash
+cd web
+npm run deploy
+```
+
+See the [web/README.md](web/README.md) for detailed instructions.
+
+## Architecture
+
+This project follows **CLEAN Architecture** principles with a shared business logic library (`@rulezero/core`) that is consumed by both the Discord bot and web application.
+
+### Key Benefits
+- **Single Source of Truth**: Business logic lives in one place
+- **Consistency**: Both platforms use identical logic
+- **Maintainability**: Changes propagate automatically
+- **Testability**: Clear separation enables easy testing
+
+### Layers
+1. **Domain Layer**: Pure business entities (Deck, BracketAnalysisResult, CardCategory)
+2. **Use Cases Layer**: Application business rules (FetchDeckBracketUseCase)
+3. **Infrastructure Layer**: External adapters (MoxfieldAdapter, ArchidektAdapter, BracketAnalyzer)
+
+For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+For usage examples, see [packages/core/EXAMPLES.md](packages/core/EXAMPLES.md).
 
 ## License
 
