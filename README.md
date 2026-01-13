@@ -1,4 +1,4 @@
-# MTG Commander Bracket Analyzer
+# Rule Minus One
 
 A comprehensive toolkit for analyzing Magic: The Gathering Commander decks from Moxfield and Archidekt, determining which bracket they belong to based on configurable rules.
 

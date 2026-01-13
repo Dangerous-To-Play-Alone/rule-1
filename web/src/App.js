@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>⚔️ Rule Zero</h1>
+        <h1>⚔️ Rule Minus One</h1>
         <p>Analyze decks and manage Commander brackets for your Pods</p>
       </header>
 

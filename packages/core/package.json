@@ -1,7 +1,7 @@
 {
   "name": "@rulezero/core",
   "version": "1.0.0",
-  "description": "Shared business logic for MTG Commander Bracket Analyzer",
+  "description": "Shared business logic for Rule Minus One",
   "type": "module",
   "main": "src/index.js",
   "exports": {

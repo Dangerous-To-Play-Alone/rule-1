@@ -1,6 +1,6 @@
 # @rulezero/core
 
-Shared business logic library for MTG Commander Bracket Analyzer, following CLEAN Architecture principles.
+Shared business logic library for Rule Minus One, following CLEAN Architecture principles.
 
 ## Architecture
 

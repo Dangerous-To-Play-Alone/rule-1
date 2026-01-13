@@ -1,4 +1,4 @@
-# MTG Commander Bracket Analyzer - Complete Summary
+# Rule Minus One - Complete Summary
 
 ## 🎯 What This Project Does
 

@@ -1,4 +1,4 @@
-# MTG Commander Bracket Analyzer - Web App
+# Rule Minus One - Web App
 
 A frontend-only React application that analyzes Magic: The Gathering Commander decks from Moxfield and Archidekt, determining which bracket they belong to based on configurable rules.
 

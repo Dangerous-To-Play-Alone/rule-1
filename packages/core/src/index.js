@@ -1,6 +1,6 @@
 /**
  * @rulezero/core
- * Shared business logic library for MTG Commander Bracket Analyzer
+ * Shared business logic library for Rule Minus One
  * 
  * Following CLEAN Architecture principles:
  * - Domain: Pure business entities and value objects
