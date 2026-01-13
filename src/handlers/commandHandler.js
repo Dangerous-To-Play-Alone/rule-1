@@ -1,5 +1,4 @@
-const deckFetcher = require('../services/deckFetcher');
-const bracketAnalyzer = require('../services/bracketAnalyzer');
+const deckService = require('../services/deckService');
 const configManager = require('../config/configManager');
 
 async function handleAnalyze(interaction) {
@@ -7,9 +6,8 @@ async function handleAnalyze(interaction) {
   
   try {
     const url = interaction.options.getString('url');
-    const deck = await deckFetcher.fetchDeck(url);
-    const analysis = bracketAnalyzer.analyzeDeck(deck);
-    const message = bracketAnalyzer.formatAnalysisResult(analysis, deck);
+    const result = await deckService.fetchAndAnalyzeDeck(url);
+    const message = deckService.formatAnalysisResult(result);
     
     await interaction.editReply(message);
   } catch (error) {
