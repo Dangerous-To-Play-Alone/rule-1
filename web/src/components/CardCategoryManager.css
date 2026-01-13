@@ -1,0 +1,296 @@
+.card-category-manager {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.manager-header h2 {
+  color: #333;
+  margin: 0;
+}
+
+.btn-add-category {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-add-category:hover {
+  background: #0056b3;
+}
+
+.add-category-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  align-items: center;
+}
+
+.add-category-form input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.add-category-form input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.btn-confirm {
+  padding: 10px 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-confirm:hover {
+  background: #218838;
+}
+
+.btn-cancel {
+  padding: 10px 20px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #5a6268;
+}
+
+.category-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.category-selector label {
+  font-weight: 600;
+  color: #555;
+}
+
+.category-selector select {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.card-count {
+  color: #666;
+  font-size: 14px;
+}
+
+.btn-delete-category {
+  padding: 8px 16px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+  margin-left: 10px;
+}
+
+.btn-delete-category:hover {
+  background: #c82333;
+}
+
+.add-card-section {
+  margin-bottom: 40px;
+  padding: 20px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.add-card-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #495057;
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.searching {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.search-results {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.search-result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f3f5;
+  transition: background 0.2s;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background: #f8f9fa;
+}
+
+.search-result-item .card-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.btn-add {
+  padding: 6px 16px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-add:hover {
+  background: #218838;
+}
+
+.cards-list {
+  padding: 20px;
+  background: #fff;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.cards-list h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #495057;
+}
+
+.empty-message {
+  text-align: center;
+  color: #6c757d;
+  padding: 40px;
+  font-style: italic;
+}
+
+.cards-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid #f1f3f5;
+  transition: background 0.2s;
+}
+
+.card-item:last-child {
+  border-bottom: none;
+}
+
+.card-item:hover {
+  background: #f8f9fa;
+}
+
+.card-item .card-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.scryfall-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: #28a745;
+  color: white;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  title: 'Scryfall ID available';
+}
+
+.btn-remove {
+  padding: 6px 16px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-remove:hover {
+  background: #c82333;
+}
