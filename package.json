@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "workspaces": [
+    "packages/*",
+    "web"
+  ],
   "scripts": {
     "start": "node src/bot.js",
     "deploy": "node src/deploy-commands.js",
+    "web": "cd web && npm start",
+    "web:build": "cd web && npm run build",
+    "web:deploy": "cd web && npm run deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,8 +20,11 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@rulezero/core": "file:./packages/core",
     "axios": "^1.13.2",
+    "cors": "^2.8.5",
     "discord.js": "^14.25.1",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1"
   }
 }
