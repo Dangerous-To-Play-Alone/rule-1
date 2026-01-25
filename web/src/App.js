@@ -11,6 +11,8 @@ function App() {
   const [isLoadingDefaults, setIsLoadingDefaults] = useState(false);
   const [defaultsError, setDefaultsError] = useState(null);
   const [initializationStatus, setInitializationStatus] = useState('idle'); // 'idle', 'loading', 'success', 'error'
+  const [isRestoring, setIsRestoring] = useState(false);
+  const [restoreError, setRestoreError] = useState(null);
 
   // Initialize defaults on app launch
   useEffect(() => {
@@ -66,6 +68,45 @@ function App() {
     }
   };
 
+  const handleBackup = () => {
+    try {
+      configManager.downloadBackup();
+      alert('Configuration backed up successfully!');
+    } catch (error) {
+      console.error('Failed to create backup:', error);
+      alert('Failed to create backup. Please try again.');
+    }
+  };
+
+  const handleRestore = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Ask user if they want to merge or replace
+    const shouldMerge = window.confirm(
+      'Do you want to MERGE this backup with your current settings?\n\n' +
+      'Click OK to merge (add new items, keep existing)\n' +
+      'Click Cancel to REPLACE everything with the backup'
+    );
+
+    setIsRestoring(true);
+    setRestoreError(null);
+
+    try {
+      await configManager.restoreFromFile(file, shouldMerge);
+      handleConfigChange();
+      alert(`Configuration ${shouldMerge ? 'merged' : 'restored'} successfully!`);
+    } catch (error) {
+      console.error('Failed to restore backup:', error);
+      setRestoreError(error.message);
+      alert(`Failed to restore backup: ${error.message}`);
+    } finally {
+      setIsRestoring(false);
+      // Reset file input
+      event.target.value = '';
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -107,22 +148,55 @@ function App() {
       <main className="App-main">
         {activeTab === "analyze" && (
           <>
-            <div className="reset-section">
-              <button
-                className="reset-button"
-                onClick={handleResetToDefaults}
-                disabled={isLoadingDefaults}
-              >
-                {isLoadingDefaults ? '⏳ Fetching...' : '🔄 Reset to Bracket Defaults'}
-              </button>
-              <p className="reset-help">
-                Fetch the latest default brackets, bans, and card categories from CommanderSpellbook
-              </p>
-              {defaultsError && (
-                <div className="error-message">
-                  Error: {defaultsError}
+            <div className="actions-section">
+              <div className="action-group">
+                <h3>📦 Backup & Restore</h3>
+                <div className="backup-restore-buttons">
+                  <button
+                    className="btn-backup"
+                    onClick={handleBackup}
+                  >
+                    💾 Download Backup
+                  </button>
+                  <label className="btn-restore">
+                    {isRestoring ? '⏳ Restoring...' : '📂 Restore Backup'}
+                    <input
+                      type="file"
+                      accept=".json"
+                      onChange={handleRestore}
+                      disabled={isRestoring}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
                 </div>
-              )}
+                <p className="action-help">
+                  Save your custom brackets, categories, and card lists, or restore from a previous backup
+                </p>
+                {restoreError && (
+                  <div className="error-message">
+                    Error: {restoreError}
+                  </div>
+                )}
+              </div>
+
+              <div className="action-group">
+                <h3>🔄 Reset to Defaults</h3>
+                <button
+                  className="reset-button"
+                  onClick={handleResetToDefaults}
+                  disabled={isLoadingDefaults}
+                >
+                  {isLoadingDefaults ? '⏳ Fetching...' : '🔄 Reset to Bracket Defaults'}
+                </button>
+                <p className="action-help">
+                  Fetch the latest default brackets, bans, and card categories from CommanderSpellbook
+                </p>
+                {defaultsError && (
+                  <div className="error-message">
+                    Error: {defaultsError}
+                  </div>
+                )}
+              </div>
             </div>
             <DeckAnalyzer key={refreshKey} />
           </>

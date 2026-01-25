@@ -201,6 +201,166 @@ class ConfigManager {
     return localStorage.getItem(this.defaultsStorageKey) !== null;
   }
 
+  /**
+   * Export current configuration as a JSON backup
+   * @returns {Object} Backup object with metadata and configuration
+   */
+  exportBackup() {
+    const backup = {
+      version: '1.0.0',
+      exportDate: new Date().toISOString(),
+      appName: 'Rule Minus One',
+      config: {
+        brackets: this.config.brackets,
+        globalBans: this.config.globalBans,
+        cardCategories: this.config.cardCategories
+      }
+    };
+    
+    return backup;
+  }
+
+  /**
+   * Download configuration as a JSON file
+   * @param {string} filename - Optional filename (defaults to timestamped name)
+   */
+  downloadBackup(filename = null) {
+    const backup = this.exportBackup();
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+    const defaultFilename = `rulezero-backup-${timestamp}.json`;
+    
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename || defaultFilename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    URL.revokeObjectURL(url);
+    
+    console.log(`Backup downloaded as ${filename || defaultFilename}`);
+  }
+
+  /**
+   * Import and restore configuration from a backup object
+   * @param {Object} backup - Backup object to restore
+   * @param {boolean} merge - If true, merge with existing config; if false, replace entirely
+   * @throws {Error} If backup is invalid
+   */
+  importBackup(backup, merge = false) {
+    // Validate backup structure
+    if (!backup || typeof backup !== 'object') {
+      throw new Error('Invalid backup: Must be a valid object');
+    }
+    
+    if (!backup.config) {
+      throw new Error('Invalid backup: Missing config data');
+    }
+    
+    if (!backup.config.brackets || !backup.config.globalBans || !backup.config.cardCategories) {
+      throw new Error('Invalid backup: Missing required config fields (brackets, globalBans, or cardCategories)');
+    }
+    
+    // Log backup metadata
+    console.log('Importing backup:', {
+      version: backup.version,
+      exportDate: backup.exportDate,
+      appName: backup.appName
+    });
+    
+    if (merge) {
+      // Merge mode: Add to existing config without replacing
+      this.mergeConfig(backup.config);
+    } else {
+      // Replace mode: Completely replace current config
+      this.config = {
+        brackets: backup.config.brackets,
+        globalBans: backup.config.globalBans,
+        cardCategories: backup.config.cardCategories
+      };
+    }
+    
+    this.saveConfig();
+    console.log('Backup imported successfully');
+  }
+
+  /**
+   * Merge backup config with existing config
+   * @private
+   * @param {Object} backupConfig - Config to merge
+   */
+  mergeConfig(backupConfig) {
+    // Merge brackets
+    if (backupConfig.brackets) {
+      this.config.brackets = {
+        ...this.config.brackets,
+        ...backupConfig.brackets
+      };
+    }
+    
+    // Merge global bans (add new ones, keep existing)
+    if (backupConfig.globalBans) {
+      const existingBans = new Set(this.config.globalBans);
+      backupConfig.globalBans.forEach(ban => existingBans.add(ban));
+      this.config.globalBans = Array.from(existingBans);
+    }
+    
+    // Merge card categories
+    if (backupConfig.cardCategories) {
+      Object.keys(backupConfig.cardCategories).forEach(category => {
+        if (!this.config.cardCategories[category]) {
+          // New category: add it
+          this.config.cardCategories[category] = backupConfig.cardCategories[category];
+        } else {
+          // Existing category: merge cards
+          const existingCards = new Set(
+            this.config.cardCategories[category].map(card => 
+              typeof card === 'string' ? card.toLowerCase() : card.name.toLowerCase()
+            )
+          );
+          
+          backupConfig.cardCategories[category].forEach(card => {
+            const cardName = typeof card === 'string' ? card.toLowerCase() : card.name.toLowerCase();
+            if (!existingCards.has(cardName)) {
+              this.config.cardCategories[category].push(card);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  /**
+   * Restore configuration from a JSON file
+   * @param {File} file - JSON file to restore from
+   * @param {boolean} merge - If true, merge with existing config; if false, replace entirely
+   * @returns {Promise<void>}
+   */
+  async restoreFromFile(file, merge = false) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      
+      reader.onload = (event) => {
+        try {
+          const backup = JSON.parse(event.target.result);
+          this.importBackup(backup, merge);
+          resolve();
+        } catch (error) {
+          reject(new Error(`Failed to parse backup file: ${error.message}`));
+        }
+      };
+      
+      reader.onerror = () => {
+        reject(new Error('Failed to read backup file'));
+      };
+      
+      reader.readAsText(file);
+    });
+  }
+
   // Category management
   addCategory(categoryId, categoryName) {
     const camelCaseId = categoryId.replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())

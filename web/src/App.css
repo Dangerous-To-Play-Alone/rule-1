@@ -158,13 +158,65 @@ body {
   color: #dc3545;
 }
 
-.reset-section {
+.actions-section {
   background: rgba(255, 255, 255, 0.95);
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+}
+
+.action-group {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.action-group:last-child {
+  border-bottom: none;
+}
+
+.action-group h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.2rem;
   text-align: center;
+}
+
+.backup-restore-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.btn-backup,
+.btn-restore {
+  padding: 0.75rem 1.5rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-backup:hover,
+.btn-restore:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-restore {
+  background: #6c757d;
+  display: inline-block;
+}
+
+.btn-restore:hover {
+  background: #5a6268;
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
 .reset-button {
@@ -190,10 +242,11 @@ body {
   cursor: not-allowed;
 }
 
-.reset-help {
+.action-help {
   margin: 0.75rem 0 0 0;
   color: #666;
   font-size: 0.9rem;
+  text-align: center;
 }
 
 .error-message {
@@ -220,6 +273,15 @@ body {
   }
 
   .App-nav button {
+    width: 100%;
+  }
+
+  .backup-restore-buttons {
+    flex-direction: column;
+  }
+
+  .btn-backup,
+  .btn-restore {
     width: 100%;
   }
 }
