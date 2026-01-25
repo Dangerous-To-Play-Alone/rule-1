@@ -18,8 +18,8 @@ Application business rules and orchestration:
 
 ### Infrastructure Layer (`src/infrastructure/`)
 External interfaces and adapters:
-- **MoxfieldAdapter**: Fetches decks from Moxfield API
-- **ArchidektAdapter**: Fetches decks from Archidekt API
+- **MoxfieldRepository**: Fetches decks from Moxfield API
+- **ArchidektRepository**: Fetches decks from Archidekt API
 - **BracketAnalyzer**: Analyzes decks against bracket configuration
 
 ## Usage
@@ -74,12 +74,12 @@ You can also use individual components:
 
 ```javascript
 import { 
-  MoxfieldAdapter, 
+  MoxfieldRepository, 
   BracketAnalyzer,
   Deck 
 } from '@rulezero/core';
 
-const adapter = new MoxfieldAdapter();
+const adapter = new MoxfieldRepository();
 const deck = await adapter.fetchDeck('https://moxfield.com/decks/...');
 
 const analyzer = new BracketAnalyzer();

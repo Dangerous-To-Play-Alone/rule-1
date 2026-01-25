@@ -94,7 +94,7 @@ Both the web app and Discord bot share the same core logic via the `@rulezero/co
 The shared library follows **CLEAN Architecture** principles with:
 - **Domain Layer**: Pure business entities (Deck, BracketAnalysisResult)
 - **Use Cases Layer**: Application business rules (FetchDeckBracketUseCase)
-- **Infrastructure Layer**: External adapters (MoxfieldAdapter, ArchidektAdapter)
+- **Infrastructure Layer**: External adapters (MoxfieldRepository, ArchidektAdapter)
 
 For detailed documentation, see:
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Architecture overview

@@ -1,7 +1,7 @@
 /**
  * @rulezero/core
  * Shared business logic library for Rule Minus One
- * 
+ *
  * Following CLEAN Architecture principles:
  * - Domain: Pure business entities and value objects
  * - Use Cases: Application business rules
@@ -16,10 +16,11 @@ export { Card } from './domain/Card.js';
 
 // Use Cases Layer
 export { FetchDeckBracketUseCase } from './usecases/FetchDeckBracketUseCase.js';
+export { FetchDefaultBracketsUseCase } from './usecases/FetchDefaultBracketsUseCase.js';
 
 // Infrastructure Layer (exported for advanced usage)
-export { MoxfieldAdapter } from './infrastructure/MoxfieldAdapter.js';
-export { ArchidektAdapter } from './infrastructure/ArchidektAdapter.js';
+export { MoxfieldRepository } from './infrastructure/MoxfieldRepository.js';
+export { ArchidektAdapter } from './infrastructure/ArchidektRepository.js';
 export { BracketAnalyzer } from './infrastructure/BracketAnalyzer.js';
 export { HttpClient, CorsProxyHttpClient } from './infrastructure/HttpClient.js';
-export { ScryfallAdapter } from './infrastructure/ScryfallAdapter.js';
+export { ScryfallRepository } from './infrastructure/ScryfallRepository.js';

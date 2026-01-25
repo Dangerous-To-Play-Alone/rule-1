@@ -17,9 +17,10 @@ Successfully migrated the project from duplicated business logic to a shared lib
 - `src/usecases/FetchDeckBracketUseCase.js` - Main use case for fetching and analyzing decks
 
 #### Infrastructure Layer
-- `src/infrastructure/MoxfieldAdapter.js` - Adapter for Moxfield API
-- `src/infrastructure/ArchidektAdapter.js` - Adapter for Archidekt API
-- `src/infrastructure/BracketAnalyzer.js` - Analyzer for bracket rules
+- `src/infrastructure/MoxfieldRepository.js` - Adapter for Moxfield API
+- `src/infrastructure/ArchidektRepository.js` - Adapter for Archidekt API
+- `src/infrastructure/
+` - Analyzer for bracket rules
 
 #### Package Files
 - `package.json` - Package configuration with ES modules

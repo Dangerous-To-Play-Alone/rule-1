@@ -153,8 +153,8 @@ rulezero/
 │       ├── usecases/              # Application business rules
 │       │   └── FetchDeckBracketUseCase.js
 │       └── infrastructure/        # External adapters
-│           ├── MoxfieldAdapter.js
-│           ├── ArchidektAdapter.js
+│           ├── MoxfieldRepository.js
+│           ├── ArchidektRepository.js
 │           └── BracketAnalyzer.js
 ├── src/                            # Discord Bot (CommonJS)
 │   ├── bot.js                     # Main bot file
@@ -215,7 +215,7 @@ This project follows **CLEAN Architecture** principles with a shared business lo
 ### Layers
 1. **Domain Layer**: Pure business entities (Deck, BracketAnalysisResult, CardCategory)
 2. **Use Cases Layer**: Application business rules (FetchDeckBracketUseCase)
-3. **Infrastructure Layer**: External adapters (MoxfieldAdapter, ArchidektAdapter, BracketAnalyzer)
+3. **Infrastructure Layer**: External adapters (MoxfieldRepository, ArchidektRepository, BracketAnalyzer)
 
 For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
 

@@ -1,8 +1,10 @@
 import defaultBrackets from '../config/defaultBrackets';
+import { FetchDefaultBracketsUseCase, CorsProxyHttpClient } from '@rulezero/core';
 
 class ConfigManager {
   constructor() {
     this.storageKey = 'mtg-bracket-config';
+    this.defaultsStorageKey = 'mtg-bracket-defaults';
     this.loadConfig();
   }
 
@@ -137,8 +139,66 @@ class ConfigManager {
   }
 
   resetToDefaults() {
-    this.config = JSON.parse(JSON.stringify(defaultBrackets));
+    // Try to use fetched defaults, otherwise fall back to hardcoded defaults
+    const fetchedDefaults = this.getFetchedDefaults();
+    if (fetchedDefaults) {
+      this.config = JSON.parse(JSON.stringify(fetchedDefaults));
+    } else {
+      this.config = JSON.parse(JSON.stringify(defaultBrackets));
+    }
     this.saveConfig();
+  }
+
+  /**
+   * Fetch default brackets from CommanderSpellbook API and store them locally
+   * @returns {Promise<Object>} The fetched defaults
+   */
+  async fetchDefaultsFromAPI() {
+    try {
+      console.log('Fetching default brackets from CommanderSpellbook...');
+      const httpClient = new CorsProxyHttpClient();
+      const useCase = new FetchDefaultBracketsUseCase(httpClient);
+      
+      const { globalBans, cardCategories } = await useCase.execute();
+      
+      // Create the defaults object with the same structure as defaultBrackets
+      const fetchedDefaults = {
+        brackets: defaultBrackets.brackets, // Keep bracket definitions
+        globalBans,
+        cardCategories
+      };
+      
+      // Store the fetched defaults
+      localStorage.setItem(this.defaultsStorageKey, JSON.stringify(fetchedDefaults));
+      console.log('Successfully fetched and stored default brackets');
+      
+      return fetchedDefaults;
+    } catch (error) {
+      console.error('Failed to fetch defaults from API:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get the fetched defaults from local storage
+   * @returns {Object|null} The fetched defaults or null if not available
+   */
+  getFetchedDefaults() {
+    try {
+      const stored = localStorage.getItem(this.defaultsStorageKey);
+      return stored ? JSON.parse(stored) : null;
+    } catch (error) {
+      console.error('Error loading fetched defaults:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Check if fetched defaults exist in storage
+   * @returns {boolean}
+   */
+  hasFetchedDefaults() {
+    return localStorage.getItem(this.defaultsStorageKey) !== null;
   }
 
   // Category management

@@ -190,10 +190,10 @@ const foundCards = CardCategory.createEmptyFoundCards();
 ### Using Individual Adapters
 
 ```javascript
-import { MoxfieldAdapter, ArchidektAdapter } from '@rulezero/core';
+import { MoxfieldRepository, ArchidektRepository } from '@rulezero/core';
 
 // Fetch from Moxfield
-const moxfieldAdapter = new MoxfieldAdapter();
+const moxfieldAdapter = new MoxfieldRepository();
 const moxfieldDeck = await moxfieldAdapter.fetchDeck(
   'https://moxfield.com/decks/abc123'
 );
@@ -205,9 +205,9 @@ const archidektDeck = await archidektAdapter.fetchDeck(
 );
 
 // Check if adapter can handle URL
-console.log(MoxfieldAdapter.canHandle('https://moxfield.com/decks/abc'));
+console.log(MoxfieldRepository.canHandle('https://moxfield.com/decks/abc'));
 // true
-console.log(ArchidektAdapter.canHandle('https://moxfield.com/decks/abc'));
+console.log(ArchidektRepository.canHandle('https://moxfield.com/decks/abc'));
 // false
 ```
 
@@ -405,12 +405,12 @@ describe('Deck', () => {
 ### Integration Testing Use Cases
 
 ```javascript
-import { FetchDeckBracketUseCase, MoxfieldAdapter } from '@rulezero/core';
+import { FetchDeckBracketUseCase, MoxfieldRepository } from '@rulezero/core';
 
 // Mock the adapter
 jest.mock('@rulezero/core', () => ({
   ...jest.requireActual('@rulezero/core'),
-  MoxfieldAdapter: jest.fn()
+  MoxfieldRepository: jest.fn()
 }));
 
 describe('FetchDeckBracketUseCase', () => {
@@ -423,7 +423,7 @@ describe('FetchDeckBracketUseCase', () => {
       source: 'Moxfield'
     };
     
-    MoxfieldAdapter.prototype.fetchDeck = jest.fn()
+    MoxfieldRepository.prototype.fetchDeck = jest.fn()
       .mockResolvedValue(mockDeck);
     
     const useCase = new FetchDeckBracketUseCase();

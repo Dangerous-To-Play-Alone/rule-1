@@ -64,8 +64,8 @@ Application-specific business rules that orchestrate the flow of data between la
 Handles external concerns like API calls and data transformation.
 
 **Adapters:**
-- **MoxfieldAdapter**: Fetches from Moxfield API, maps to domain model
-- **ArchidektAdapter**: Fetches from Archidekt API, maps to domain model
+- **MoxfieldRepository**: Fetches from Moxfield API, maps to domain model
+- **ArchidektRepository**: Fetches from Archidekt API, maps to domain model
 - **BracketAnalyzer**: Analyzes decks against configuration rules
 
 **Characteristics:**

@@ -5,7 +5,7 @@ import { HttpClient } from './HttpClient.js';
  * MoxfieldAdapter
  * Handles fetching and mapping deck data from Moxfield API to domain model
  */
-export class MoxfieldAdapter {
+export class MoxfieldRepository {
   constructor(httpClient = null) {
     this.httpClient = httpClient || new HttpClient();
   }

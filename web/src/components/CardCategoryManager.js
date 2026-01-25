@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScryfallAdapter, CorsProxyHttpClient, CardCategory } from '@rulezero/core';
+import { ScryfallRepository, CorsProxyHttpClient, CardCategory } from '@rulezero/core';
 import configManager from '../services/configManager';
 import './CardCategoryManager.css';
 
@@ -12,7 +12,7 @@ function CardCategoryManager({ onConfigChange }) {
   const [isSearching, setIsSearching] = useState(false);
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
-  const [scryfallAdapter] = useState(() => new ScryfallAdapter(new CorsProxyHttpClient()));
+  const [scryfallAdapter] = useState(() => new ScryfallRepository(new CorsProxyHttpClient()));
 
   // Load categories on mount
   useEffect(() => {

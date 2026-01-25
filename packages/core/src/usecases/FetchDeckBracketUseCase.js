@@ -1,24 +1,24 @@
-import { MoxfieldAdapter } from '../infrastructure/MoxfieldAdapter.js';
-import { ArchidektAdapter } from '../infrastructure/ArchidektAdapter.js';
+import { MoxfieldRepository } from '../infrastructure/MoxfieldRepository.js';
+import { ArchidektAdapter } from '../infrastructure/ArchidektRepository.js';
 import { BracketAnalyzer } from '../infrastructure/BracketAnalyzer.js';
 import { HttpClient } from '../infrastructure/HttpClient.js';
 
 /**
  * FetchDeckBracketUseCase
  * Main use case for fetching a deck and analyzing its bracket
- * 
+ *
  * This use case orchestrates:
  * 1. Determining the deck provider from URL
  * 2. Fetching the deck via the appropriate adapter
  * 3. Analyzing the deck against bracket configuration
  * 4. Returning a complete analysis result
- * 
+ *
  * @param {HttpClient} httpClient - Optional HTTP client for platform-specific needs (e.g., CORS proxy)
  */
 export class FetchDeckBracketUseCase {
   constructor(httpClient = null) {
     const client = httpClient || new HttpClient();
-    this.moxfieldAdapter = new MoxfieldAdapter(client);
+    this.moxfieldAdapter = new MoxfieldRepository(client);
     this.archidektAdapter = new ArchidektAdapter(client);
     this.bracketAnalyzer = new BracketAnalyzer();
   }
@@ -58,7 +58,7 @@ export class FetchDeckBracketUseCase {
    * @returns {Promise<Deck>}
    */
   async fetchDeck(url) {
-    if (MoxfieldAdapter.canHandle(url)) {
+    if (MoxfieldRepository.canHandle(url)) {
       return await this.moxfieldAdapter.fetchDeck(url);
     } else if (ArchidektAdapter.canHandle(url)) {
       return await this.archidektAdapter.fetchDeck(url);

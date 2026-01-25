@@ -5,7 +5,7 @@ import { Card } from '../domain/Card.js';
  * ScryfallAdapter
  * Handles card searches and lookups using the Scryfall API
  */
-export class ScryfallAdapter {
+export class ScryfallRepository {
   constructor(httpClient = null) {
     this.httpClient = httpClient || new HttpClient();
     this.baseUrl = 'https://api.scryfall.com';
@@ -24,7 +24,7 @@ export class ScryfallAdapter {
     try {
       const url = `${this.baseUrl}/cards/search?q=${encodeURIComponent(query)}`;
       const data = await this.httpClient.get(url);
-      
+
       return data.data.slice(0, 20).map(cardData => new Card({
         id: cardData.id,
         name: cardData.name,
@@ -47,7 +47,7 @@ export class ScryfallAdapter {
     try {
       const url = `${this.baseUrl}/cards/named?exact=${encodeURIComponent(name)}`;
       const data = await this.httpClient.get(url);
-      
+
       return new Card({
         id: data.id,
         name: data.name,
@@ -67,7 +67,7 @@ export class ScryfallAdapter {
     try {
       const url = `${this.baseUrl}/cards/${id}`;
       const data = await this.httpClient.get(url);
-      
+
       return new Card({
         id: data.id,
         name: data.name,
@@ -91,7 +91,7 @@ export class ScryfallAdapter {
     try {
       const url = `${this.baseUrl}/cards/autocomplete?q=${encodeURIComponent(query)}`;
       const data = await this.httpClient.get(url);
-      
+
       return data.data || [];
     } catch (error) {
       return [];
@@ -106,7 +106,7 @@ export class ScryfallAdapter {
    */
   async enrichCards(cardNames) {
     const cards = [];
-    
+
     for (const name of cardNames) {
       try {
         const card = await this.getCardByName(name);
@@ -117,7 +117,7 @@ export class ScryfallAdapter {
         cards.push(Card.fromName(name));
       }
     }
-    
+
     return cards;
   }
 }

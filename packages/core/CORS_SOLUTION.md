@@ -78,7 +78,7 @@ export class CorsProxyHttpClient extends HttpClient {
 Updated adapters to accept injected HTTP client:
 
 ```javascript
-export class MoxfieldAdapter {
+export class MoxfieldRepository {
   constructor(httpClient = null) {
     this.httpClient = httpClient || new HttpClient();
   }
@@ -98,8 +98,8 @@ Updated use case to accept HTTP client dependency:
 export class FetchDeckBracketUseCase {
   constructor(httpClient = null) {
     const client = httpClient || new HttpClient();
-    this.moxfieldAdapter = new MoxfieldAdapter(client);
-    this.archidektAdapter = new ArchidektAdapter(client);
+    this.moxfieldAdapter = new MoxfieldRepository(client);
+    this.archidektAdapter = new ArchidektRepository(client);
     this.bracketAnalyzer = new BracketAnalyzer();
   }
 }
@@ -161,7 +161,7 @@ For production, consider running your own CORS proxy:
 
 1. Web app creates `CorsProxyHttpClient` instance
 2. Injects it into `FetchDeckBracketUseCase`
-3. Use case passes it to adapters (MoxfieldAdapter, ArchidektAdapter)
+3. Use case passes it to adapters (MoxfieldRepository, ArchidektRepository)
 4. Adapters use the client to make HTTP requests
 5. If direct request fails with CORS error, proxy is used automatically
 
